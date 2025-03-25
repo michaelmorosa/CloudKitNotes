@@ -16,31 +16,96 @@ struct ContentView: View {
         animation: .default)
     private var items: FetchedResults<Item>
 
+    // Initialize a state object that listens for published var changes in CloudKitHelper class.
+    @StateObject private var cloudKitHelper = CloudKitHelper()
+    
+    // Initialize state variable for title, conent, and bool for showing add note sheet
+    @State private var newNoteTitle = ""
+    @State private var newNotecontent = ""
+    @State private var isShowingAddNoteSheet = false
+    @State private var successMessage: String = "" // State property to hold success message
+    @State private var refreshSuccessMessage: String = "" // State property ot hold success message for refresh button click
+
+    // body content
     var body: some View {
+        
+        // Navigation view
         NavigationView {
-            List {
-                ForEach(items) { item in
-                    NavigationLink {
-                        Text("Item at \(item.timestamp!, formatter: itemFormatter)")
-                    } label: {
-                        Text(item.timestamp!, formatter: itemFormatter)
+            // Display vertical stack of all the notes
+            VStack {
+                List(cloudKitHelper.notes) { note in
+                    VStack(alignment: .leading) {
+                        Text(note.title)
+                            .font(.headline)
+                        Text(note.content)
+                            .font(.subheadline)
+                            .foregroundColor(.gray)
                     }
                 }
-                .onDelete(perform: deleteItems)
+                
+                if !successMessage.isEmpty {
+                    Text(successMessage)
+                        .accessibilityIdentifier("SuccessMessage")
+                        .foregroundColor(.green)
+                        .padding()
+                }
+                
+                // Display a vertical stack that lets a user add a new note
+                VStack(alignment: .leading, spacing: 10) {
+                    TextField("Enter note title", text: $newNoteTitle)
+                        .accessibilityIdentifier("Title")
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .padding(.horizontal)
+                    
+                    TextEditor(text: $newNotecontent)
+                        .accessibilityIdentifier("Content")
+                        .frame(height: 100)
+                        .border(Color.gray, width: 1)
+                        .padding(.horizontal)
+                    
+                    Button(action: {
+                        guard !newNoteTitle.isEmpty, !newNotecontent.isEmpty else {return}
+                        // Save a new note when clicking the Save Note button
+                        cloudKitHelper.saveNote(title: newNoteTitle, content: newNotecontent) { error in
+                            if (error == nil) {
+                                successMessage = "Note saved successfully!"
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
+                                    successMessage = ""
+                                }
+                            }
+                        }
+                        newNoteTitle = ""
+                        newNotecontent = ""
+                    }){
+                        Text("Save Note")
+                            .accessibilityIdentifier("Save Note")
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(Color.blue)
+                            .foregroundColor(.white)
+                            .cornerRadius(8)
+                    }
+                    .padding(.horizontal)
+                }
+                .padding(.bottom)
             }
+            .navigationTitle("Cloud Notes")
             .toolbar {
-#if os(iOS)
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    EditButton()
-                }
-#endif
-                ToolbarItem {
-                    Button(action: addItem) {
-                        Label("Add Item", systemImage: "plus")
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button(action: { // Fetch the notes when clicking the refresh button
+                        cloudKitHelper.fetchNotes { _, _ in
+                            print("Fetched notes after saving.")
+                     }
+                    }) {
+                        Image(systemName: "arrow.clockwise")
                     }
                 }
             }
-            Text("Select an item")
+            .onAppear {
+                cloudKitHelper.fetchNotes { _, _ in
+                    print("Fetched notes after saving.")
+                }
+            }
         }
     }
 
