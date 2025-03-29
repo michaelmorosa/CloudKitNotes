@@ -16,6 +16,11 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
 
+    - name: Set up Xcode 16.2
+      uses: apple-actions/setup-xcode@v3
+      with:
+        xcode-version: '16.2'
+
     - name: Build and test
       run: |
         xcodebuild -project CloudKitNotes.xcodeproj -scheme CloudKitNotesTests -destination 'platform=iOS Simulator,name=iPhone 16,OS=18.3' test
