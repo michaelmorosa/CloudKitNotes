@@ -23,4 +23,4 @@ jobs:
 
     - name: Build and test
       run: |
-        xcodebuild -project CloudKitNotes.xcodeproj -scheme CloudKitNotesTests -destination 'platform=iOS Simulator,name=iPhone 16,OS=18.3' test
+        xcodebuild -project CloudKitNotes.xcodeproj -scheme CloudKitNotesTests -destination 'platform=iOS Simulator,name=iPhone 16,OS=16.2' test
