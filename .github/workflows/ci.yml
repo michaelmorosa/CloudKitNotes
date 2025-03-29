@@ -10,10 +10,10 @@ on:
 
 jobs:
   build:
-    runs-on: macos-latest
+    runs-on: macos-12
     steps:
       - uses: actions/checkout@v3
-
+      
       - uses: actions/setup-xcode@v4
         with:
-          xcode-version: '13.4' # Or any other valid Xcode version
+          xcode-version: '16.2' # Or any other valid Xcode version
