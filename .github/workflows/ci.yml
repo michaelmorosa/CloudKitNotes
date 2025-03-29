@@ -16,7 +16,6 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
 
-    - name: Set up Xcode
+    - name: Build and test
       run: |
-        sudo xcode-select -s /Applications/Xcode_14.2.app
-        sudo xcodebuild -version
+        xcodebuild clean test -workspace CloudKitNotes.xcworkspace -scheme CloudKitNotesTests -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 16,OS=16.0' | tee result.log | xcpretty
