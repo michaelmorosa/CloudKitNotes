@@ -29,11 +29,6 @@ jobs:
         sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
         xcrun simctl boot "iPhone 16"
 
-    - name: Install Dependencies (CocoaPods)
-      run: |
-        gem install cocoapods
-        pod install --project-directory=.
-
     - name: Build and test
       run: |
         xcodebuild test \
