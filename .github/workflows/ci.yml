@@ -12,8 +12,14 @@ jobs:
   build:
     runs-on: macos-12
     steps:
+      - name: Checkout Code
       - uses: actions/checkout@v3
       
+      - name: Set Up Xcode
       - uses: actions/setup-xcode@v4
         with:
-          xcode-version: '16.2' # Or any other valid Xcode version
+          xcode-version: '16.2'
+
+      - name: Run Tests
+        run: |
+          xcodebuild -workspace CloudKitNotes.xcworkspace -scheme CloudKitNotesTests -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 16,OS=latest' test | xcpretty
