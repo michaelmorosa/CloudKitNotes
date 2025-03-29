@@ -18,4 +18,4 @@ jobs:
 
     - name: Build and test
       run: |
-        xcodebuild clean test -workspace CloudKitNotes.xcworkspace -scheme CloudKitNotesTests -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 16,OS=16.0' | tee result.log | xcpretty
+        xcodebuild -project CloudKitNotes.xcodeproj -scheme CloudKitNotesTests -destination 'platform=iOS Simulator,name=iPhone 16,OS=18.3' test
