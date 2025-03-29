@@ -9,14 +9,10 @@ on:
       - main
 
 jobs:
-  test:
-    runs-on: macos-latest
-
+  build:
+    runs-on: macos-12
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-
-      - name: Set up Xcode
-        uses: actions/setup-xcode@v4
+      - uses: actions/checkout@v3
+      - uses: actions/setup-xcode@v4
         with:
-          xcode-version: '15.2'
+          xcode-version: '13.4' # Or any other valid Xcode version
