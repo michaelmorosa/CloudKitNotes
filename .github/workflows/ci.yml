@@ -8,15 +8,15 @@ on:
     branches:
       - main
 
-
 jobs:
-  build:
-    runs-on: macos-latest  # or specify a version, e.g., macos-13
+  test:
+    runs-on: macos-latest
+
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v4  # Ensure you fetch the latest repo
+        uses: actions/checkout@v4
 
       - name: Set up Xcode
-        uses: actions/setup-xcode@v3  # Official GitHub action
+        uses: actions/setup-xcode@v3
         with:
-          xcode-version: 16.2
+          xcode-version: latest
