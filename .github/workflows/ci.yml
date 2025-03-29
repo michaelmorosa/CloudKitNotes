@@ -37,6 +37,6 @@ jobs:
         xcodebuild test \
         -project CloudKitNotes.xcodeproj \
         -scheme CloudKitNotesTests \
-        -destination 'platform=iOS Simulator,name=iPhone 16,OS=18.2' \
+        -destination 'platform=iOS Simulator,name=iPhone 16,OS=18.3.1' \
         -resultBundlePath test-results \
         | xcpretty
