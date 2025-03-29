@@ -10,16 +10,13 @@ on:
 
 jobs:
   build:
-    runs-on: macos-11
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
-      
-      - name: Set Up Xcode
-        uses: actions/setup-xcode@v4
-        with:
-          xcode-version: '16.2'
+    runs-on: macos-latest
 
-      - name: Run Tests
-        run: |
-          xcodebuild -workspace CloudKitNotes.xcworkspace -scheme CloudKitNotesTests -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 16,OS=latest' test | xcpretty
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up Xcode
+      uses: apple-actions/setup-xcode@v2
+      with:
+        xcode-version: '14.2'
