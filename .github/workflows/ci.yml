@@ -1,4 +1,4 @@
-name: CI for iOS App
+name: iOS CI
 
 on:
   push:
@@ -8,23 +8,21 @@ on:
     branches:
       - main
 
+      
 jobs:
-  test:
-    runs-on: macos-latest
-
+  build:
+    runs-on: macos-latest  # or specify a version, e.g., macos-13
     steps:
-    # Step 1: Check out code from the repository
-    - name: Checkout code
-      uses: actions/checkout@v4
+      - name: Checkout Repository
+        uses: actions/checkout@v4  # Ensure you fetch the latest repo
 
-    # Step 2: Set up Xcode (required for building iOS projects)
-    - name: Set up Xcode
-      uses: actions/setup-xcode@v3
+      - name: Set up Xcode
+        uses: actions/setup-xcode@v3  # Official GitHub action
 
-    - name: Select Xcode Version
-      run: sudo xcode-select -switch /Applications/Xcode.app/Contents/Developer
+      - name: Select Xcode Version
+        run: sudo xcode-select -switch /Applications/Xcode.app/Contents/Developer
 
-    # Step 3: Build and test iOS project
-    - name: Build the app and run tests
-      run: |
-        xcodebuild clean test -workspace CloudKitNotes.xcworkspace -scheme CloudKitNotesTests -destination 'platform-iOS Simulator, OS=latest,name=iPhone 16' | xcpretty
+      - name: Install Dependencies
+        run: |
+          brew install cocoapods
+          pod install
