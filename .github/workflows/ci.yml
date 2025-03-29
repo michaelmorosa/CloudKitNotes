@@ -15,15 +15,16 @@ jobs:
     steps:
     # Step 1: Check out code from the repository
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
     # Step 2: Set up Xcode (required for building iOS projects)
     - name: Set up Xcode
-      uses: macos-actions/setup-xcode@v1
-      with:
-        xcode-version: '16.2'
+      uses: actions/setup-xcode@v3
+
+    - name: Select Xcode Version
+      run: sudo xcode-select -switch /Applications/Xcode.app/Contents/Developer
 
     # Step 3: Build and test iOS project
     - name: Build the app and run tests
       run: |
-        xcodebuild clean test -workspace CloudKitNotes.xcworkspace -scheme CloudKitNotesTests -sdk iphonesimulator -destination 'platform-iOS Simulator, OS=latest,name=iPhone 16' | xcpretty
+        xcodebuild clean test -workspace CloudKitNotes.xcworkspace -scheme CloudKitNotesTests -destination 'platform-iOS Simulator, OS=latest,name=iPhone 16' | xcpretty
