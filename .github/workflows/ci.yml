@@ -19,4 +19,4 @@ jobs:
       - name: Set up Xcode
         uses: actions/setup-xcode@v4
         with:
-          xcode-version: latest
+          xcode-version: '16.2'
