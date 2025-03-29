@@ -8,7 +8,7 @@ on:
     branches:
       - main
 
-      
+
 jobs:
   build:
     runs-on: macos-latest  # or specify a version, e.g., macos-13
@@ -18,11 +18,5 @@ jobs:
 
       - name: Set up Xcode
         uses: actions/setup-xcode@v3  # Official GitHub action
-
-      - name: Select Xcode Version
-        run: sudo xcode-select -switch /Applications/Xcode.app/Contents/Developer
-
-      - name: Install Dependencies
-        run: |
-          brew install cocoapods
-          pod install
+        with:
+          xcode-version: 16.2
