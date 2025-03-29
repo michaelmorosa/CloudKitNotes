@@ -27,18 +27,18 @@ jobs:
     - name: Boot iOS Simulator
       run: |
         sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
-        xcrun simctl boot "iPhone 14"
+        xcrun simctl boot "iPhone 16"
 
     - name: Install Dependencies (CocoaPods)
       run: |
         gem install cocoapods
         pod install --project-directory=.
 
-    - name: Build and Run Tests
+    - name: Build and test
       run: |
         xcodebuild test \
-        -workspace CloudKitNotes.xcworkspace \
+        -project CloudKitNotes.xcodeproj \
         -scheme CloudKitNotesTests \
-        -destination 'platform=iOS Simulator,name=iPhone 14,OS=17.2' \
+        -destination 'platform=iOS Simulator,name=iPhone 16,OS=18.2' \
         -resultBundlePath test-results \
         | xcpretty
